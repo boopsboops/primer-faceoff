@@ -1,0 +1,27 @@
+locus,reference,primer,officialName,oligo,refTex,lengthFrag,lengthAmplicon
+12s,miya,universal,MiFish-U-F,GTCGGTAAAACTCGTGCCAGC,\citet{Miya2015},171,219
+12s,miya,universal,MiFish-U-R,CATAGTGGGGTATCTAATCCCAGTTTG,\citet{Miya2015},171,219
+12s,miya,elasmo,MiFish-E-F,GTTGGTAAATCTCGTGCCAGC,\citet{Miya2015},171,219
+12s,miya,elasmo,MiFish-E-R,CATAGTGGGGTATCTAATCCTAGTTTG,\citet{Miya2015},171,219
+12s,valentini,tele01,L1848,ACACCGCCCGTCACTCT,\citet{Valentini2016},63,100
+12s,valentini,tele01,H1913,CTTCCGGTACACTTACCATG,\citet{Valentini2016},63,100
+12s,riaz,v5,12S-V5f,ACTGGGATTAGATACCCC,\citet{Riaz2011},106,142
+12s,riaz,v5,12S-V5r,TAGAACAGGCTCCTCTAG,\citet{Riaz2011},106,142
+coi,leray,xtorig,mlCOIintF-XT,GGWACWRGWTGRACWITITAYCCYCC,\citet{Wangensteen2018a},313,365
+coi,leray,xtorig,jgHCO2198,TAIACYTCIGGRTGICCRAARAAYCA,\citet{Wangensteen2018a},313,365
+coi,sea,short,coi.175f,GGAGGCTTTGGMAAYTGRYT,This study,55,95
+coi,sea,short,coi.226r,GGGGGAAGAARYCARAARCT,This study,55,95
+coi,sea,mid,coi.175f,GGAGGCTTTGGMAAYTGRYT,This study,130,171
+coi,sea,mid,coi.345r,TAGAGGRGGGTARACWGTYCA,This study,130,171
+coi,leray,xt,mlCOIintF-XT,GGWACWRGWTGRACWGTYTAYCCYCC,\citet{Wangensteen2018a},313,365
+coi,leray,xt,jgHCO2198,TAKACYTCWGGRTGRCCRAARAAYCA,\citet{Wangensteen2018a},313,365
+12s,taberlet,tele02,Tele02-f,AAACTCGTGCCAGCCACC,\citet{Taberlet2018},167,205
+12s,taberlet,tele02,Tele02-r,GGGTATCTAATCCCAGTTTG,\citet{Taberlet2018},167,205
+12s,taberlet,elas02,Elas02-f,GTTGGTHAATCTCGTGCCAGC,\citet{Taberlet2018},171,219
+12s,taberlet,elas02,Elas02-r,CATAGTAGGGTATCTAATCCTAGTTTG,\citet{Taberlet2018},171,219
+coi,ward,fish,FishF1,TCAACCAACCACAAAGACATTGGCAC,\citet{Ward2005},655,707
+coi,ward,fish,FishR1,TAGACTTCTGGGTGGCCAAAGAATCA,\citet{Ward2005},655,707
+16s,berry,fish,Fish16sF/D,GACCCTATGGAGCTTTAGAC,\citet{Berry2017},219,261
+16s,berry,fish,16s2R,CGCTGTTATCCCTADRGTAACT,\citet{Berry2017},219,261
+cytb,minamoto,fish,L14912-CYB,TTCCTAGCCATACAYTAYAC,\citet{Minamoto2011},235,285
+cytb,minamoto,fish,H15149-CYB,GGTGGCKCCTCAGAAGGACATTTGKCCYCA,\citet{Minamoto2011},235,285
