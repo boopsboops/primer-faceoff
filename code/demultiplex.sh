@@ -58,10 +58,10 @@ echo -e "stat,reads\npf,\naquatheat,\nprimer,\nbarcode,\ntrim,\nfilter,\nmerge,\
 # "--pair-filter=any" means that the primers must be present in both forward and reverse to be RETAINED
 
 # sense
-cutadapt --error-rate 0.15 --overlap "$MINLEN" --pair-filter=any --action=none -g senseF="$FWD" -G senseR="$REV" --untrimmed-output "$MARKER"/trash/untrimmed.R1.fastq.gz --untrimmed-paired-output "$MARKER"/trash/untrimmed.R2.fastq.gz -o "$MARKER"/sense/R1.fastq.gz -p "$MARKER"/sense/R2.fastq.gz "$RAWR1" "$RAWR2" > "$MARKER"/logs/cutadapt.sense.log
+cutadapt --error-rate 0.15 --overlap "$MINLEN" --pair-adapters --action=none -g senseF="$FWD" -G senseR="$REV" --untrimmed-output "$MARKER"/trash/untrimmed.R1.fastq.gz --untrimmed-paired-output "$MARKER"/trash/untrimmed.R2.fastq.gz -o "$MARKER"/sense/R1.fastq.gz -p "$MARKER"/sense/R2.fastq.gz "$RAWR1" "$RAWR2" > "$MARKER"/logs/cutadapt.sense.log
 
 # antisense
-cutadapt --error-rate 0.15 --overlap "$MINLEN" --pair-filter=any --action=none -g antisenseF="$REV" -G antisenseR="$FWD" --untrimmed-output "$MARKER"/trash/noprimer.R1.fastq.gz --untrimmed-paired-output "$MARKER"/trash/noprimer.R2.fastq.gz -o "$MARKER"/antisense/R1.fastq.gz -p "$MARKER"/antisense/R2.fastq.gz "$MARKER"/trash/untrimmed.R1.fastq.gz "$MARKER"/trash/untrimmed.R2.fastq.gz > "$MARKER"/logs/cutadapt.antisense.log
+cutadapt --error-rate 0.15 --overlap "$MINLEN" --pair-adapters --action=none -g antisenseF="$REV" -G antisenseR="$FWD" --untrimmed-output "$MARKER"/trash/noprimer.R1.fastq.gz --untrimmed-paired-output "$MARKER"/trash/noprimer.R2.fastq.gz -o "$MARKER"/antisense/R1.fastq.gz -p "$MARKER"/antisense/R2.fastq.gz "$MARKER"/trash/untrimmed.R1.fastq.gz "$MARKER"/trash/untrimmed.R2.fastq.gz > "$MARKER"/logs/cutadapt.antisense.log
 
 # check output and trash for primers 
 gzip -cd "$MARKER"/sense/R1.fastq.gz | sed -n '2~4p' | head -n 40 | GREP_COLOR="1;44" grep --color=always -E "$FWDGR" | GREP_COLOR="1;41" grep --color=always -E "$REVGR"
@@ -70,18 +70,19 @@ gzip -cd "$MARKER"/trash/noprimer.R2.fastq.gz | sed -n '2~4p' | head -n 40 | GRE
 
 # Demultiplex by barcode SENSE
 # First generate barcodes files with 'prep-barcodes.R'
-cutadapt --no-indels --error-rate 0.1 --overlap 10 --action=none -g file:"$MARKER"/barcodes-sense.fas -G file:"$MARKER"/barcodes-antisense.fas -o "$MARKER"/sense/dmplx/{name}.R1.fastq.gz -p "$MARKER"/sense/dmplx/{name}.R2.fastq.gz "$MARKER"/sense/R1.fastq.gz "$MARKER"/sense/R2.fastq.gz > "$MARKER"/logs/cutadapt.dmplx.barcodes.sense.log
+cutadapt --no-indels --error-rate 0.1 --overlap 10 --pair-adapters --action=none -g file:"$MARKER"/barcodes-sense.fas -G file:"$MARKER"/barcodes-antisense.fas -o "$MARKER"/sense/dmplx/{name}.R1.fastq.gz -p "$MARKER"/sense/dmplx/{name}.R2.fastq.gz "$MARKER"/sense/R1.fastq.gz "$MARKER"/sense/R2.fastq.gz > "$MARKER"/logs/cutadapt.dmplx.barcodes.sense.log
 mv "$MARKER"/sense/dmplx/unknown.R1.fastq.gz "$MARKER"/trash/sense.unknown.R1.fastq.gz
 mv "$MARKER"/sense/dmplx/unknown.R2.fastq.gz "$MARKER"/trash/sense.unknown.R2.fastq.gz
 
 # Demultiplex by barcode ANTISENSE
-cutadapt --no-indels --error-rate 0.1 --overlap 10 --action=none -g file:"$MARKER"/barcodes-antisense.fas -G file:"$MARKER"/barcodes-sense.fas -o "$MARKER"/antisense/dmplx/{name}.R1.fastq.gz -p "$MARKER"/antisense/dmplx/{name}.R2.fastq.gz "$MARKER"/antisense/R1.fastq.gz "$MARKER"/antisense/R2.fastq.gz > "$MARKER"/logs/cutadapt.dmplx.barcodes.antisense.log
+cutadapt --no-indels --error-rate 0.1 --overlap 10 --pair-adapters --action=none -g file:"$MARKER"/barcodes-antisense.fas -G file:"$MARKER"/barcodes-sense.fas -o "$MARKER"/antisense/dmplx/{name}.R1.fastq.gz -p "$MARKER"/antisense/dmplx/{name}.R2.fastq.gz "$MARKER"/antisense/R1.fastq.gz "$MARKER"/antisense/R2.fastq.gz > "$MARKER"/logs/cutadapt.dmplx.barcodes.antisense.log
 mv "$MARKER"/antisense/dmplx/unknown.R1.fastq.gz "$MARKER"/trash/antisense.unknown.R1.fastq.gz
 mv "$MARKER"/antisense/dmplx/unknown.R2.fastq.gz "$MARKER"/trash/antisense.unknown.R2.fastq.gz
 
 # check the kept and discarded sequences
 cat "$MARKER"/sense/dmplx/*.R1.fastq.gz | gzip -cd | sed -n '2~4p' | GREP_COLOR="1;44" grep --color=always -E "$FWDGR" | GREP_COLOR="1;41" grep --color=always -E "$REVGR"
-gzip -cd "$MARKER"/trash/sense.unknown.R1.fastq.gz | sed -n '2~4p' | GREP_COLOR="1;44" grep --color=always -E "$FWDGR" | GREP_COLOR="1;41" grep --color=always -E "$REVGR"
+gzip -cd "$MARKER"/trash/sense.unknown.R1.fastq.gz | sed -n '2~4p' | head -n 40 | GREP_COLOR="1;44" grep --color=always -E "$FWDGR" | GREP_COLOR="1;41" grep --color=always -E "$REVGR"
+gzip -cd "$MARKER"/trash/sense.unknown.R2.fastq.gz | sed -n '2~4p' | head -n 40 | GREP_COLOR="1;44" grep --color=always -E "$FWDGR" | GREP_COLOR="1;41" grep --color=always -E "$REVGR"
 
 
 # trim SENSE with cutadapt

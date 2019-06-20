@@ -1,20 +1,10 @@
 #!/usr/bin/env Rscript
 rm(list=ls())
-# load libs
-library("tidyverse")
-library("magrittr")
-library("lubridate")
-library("stringr")
-library("ape")
-require("stringdist")
-require("phangorn")
-library("dada2")# used dada2 1.10.1
-library("parallel")
-library("xtable")
-
-# load funs
-source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
+# load libs and funs
 source("https://raw.githubusercontent.com/boopsboops/reference-libraries/master/scripts/funs.R")
+library("dada2")
+
+# load reflib
 source("https://raw.githubusercontent.com/boopsboops/reference-libraries/master/scripts/references-load.R")
 reflib <- reflib.orig
 
@@ -28,6 +18,7 @@ marker <- "sea-mid"
 rel.path <- "../temp/fastq"
 proj.path <- paste(rel.path,marker,sep="/") 
 
+
 # file paths
 path.sense <- paste0(proj.path,"/sense/trimmed")
 path.antisense <- paste0(proj.path,"/antisense/trimmed")
@@ -35,6 +26,7 @@ files.sense.R1 <- sort(list.files(path.sense,".R1.fastq.gz", full.names=TRUE))
 files.sense.R2 <- sort(list.files(path.sense,".R2.fastq.gz", full.names=TRUE))
 files.antisense.R1 <- sort(list.files(path.antisense,".R1.fastq.gz", full.names=TRUE))
 files.antisense.R2 <- sort(list.files(path.antisense,".R2.fastq.gz", full.names=TRUE))
+
 
 # remove the aquatheatr sequences
 files.sense.R1 <- files.sense.R1[grep("AquaTheat",files.sense.R1,invert=TRUE)]
@@ -95,11 +87,13 @@ names(files.sense.filt.R2.derep) <- str_replace_all(names(files.sense.filt.R2.de
 names(files.antisense.filt.R1.derep) <- str_replace_all(names(files.antisense.filt.R1.derep), ".fastq.gz", "")
 names(files.antisense.filt.R2.derep) <- str_replace_all(names(files.antisense.filt.R2.derep), ".fastq.gz", "")
 
+
 # make some fish priors
+prefix <- "12s.miya.noprimers"
 prefix <- "coi.lerayxt.noprimers"
 prefix <- "coi.seamid.noprimers"
 prefix <- "coi.seashort.noprimers"
-prefix <- "12s.miya.noprimers"
+
 
 # subset the marker from the reflib - using 50% length cutoff
 reflib.sub <- subset_by_marker(prefix=prefix,df=reflib,thresh=0.5)
@@ -108,11 +102,6 @@ reflib.red <- bind_rows(mcmapply(FUN=function(x) hap_collapse_df(df=x,lengthcol=
 # pull out seqs
 fish.priors <- reflib.red %>% pull(paste0("nucleotidesFrag.",prefix))
 
-# fun to revcomp
-library("seqinr")
-flip <- function(x){
-    revcomp <- c2s(rev(comp(s2c(x),ambiguous=TRUE)))
-    return(revcomp)}
 
 # get revcomps and trim
 fish.priors.revcomp <- mapply(flip,fish.priors,USE.NAMES=FALSE)

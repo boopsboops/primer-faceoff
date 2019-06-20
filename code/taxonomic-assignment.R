@@ -9,7 +9,7 @@ library("ape")
 require("stringdist")
 require("phangorn")
 library("parallel")
-library("xtable")
+#library("xtable")
 library("digest")
 library("rfishbase")
 library("taxize")
@@ -210,16 +210,17 @@ local.db.blast.sorted %>% write_csv(paste0(proj.path,"/results/fish-blast-result
 # rm(list=ls())
 # join the reflib sequences and the query sequences
 # list prefixes
+prefix <- "12s.miya.noprimers"
 prefix <- "coi.lerayxt.noprimers"
 prefix <- "coi.seamid.noprimers"
 prefix <- "coi.seashort.noprimers"
-prefix <- "12s.miya.noprimers"
 
 # also marker 
+marker <- "miya"
 marker <- "leray-xt"
 marker <- "sea-mid"
 marker <- "sea-short"
-marker <- "miya"
+
 #
 rel.path <- "../temp/fastq"
 proj.path <- paste(rel.path,marker,sep="/") 

@@ -35,21 +35,24 @@ plates %<>% mutate(barcodesFwd=str_replace_all(oligoFwd,"N",""),
     barcodesRev=str_replace_all(oligoRev,"N",""),
     barcodesRev=str_trunc(barcodesRev, width=10, side="right", ellipsis=""),
     primerFwd=str_trunc(oligoFwd, width=trlens[1], side="left", ellipsis=""),
-    primerRev=str_trunc(oligoRev, width=trlens[2], side="left", ellipsis="")
+    primerRev=str_trunc(oligoRev, width=trlens[2], side="left", ellipsis=""),
+    labelFwd=str_trunc(oligoFwd, width=unique(str_length(oligoFwd)-trlens[1]), side="right", ellipsis=""),
+    labelRev=str_trunc(oligoRev, width=unique(str_length(oligoRev)-trlens[2]), side="right", ellipsis="")
     )
 
 # create a unique md5 hash for each sample
 plates %<>% mutate(eventMD5=str_trunc(sapply(eventID, digest, algo="md5", serialize=FALSE, USE.NAMES=FALSE), width=12, side="right", ellipsis=""))
 
 # create the labels
-plates %<>% mutate(senseLabel=paste0(barcodesFwd, ".", eventMD5, ".", rep, ".", pcr), antisenseLabel=paste0(barcodesRev, ".", eventMD5, ".", rep, ".", pcr)) 
+plates %<>% mutate(senseLabel=paste0(labelFwd, ".", eventMD5, ".", rep, ".", pcr), antisenseLabel=paste0(labelRev, ".", eventMD5, ".", rep, ".", pcr)) 
 
-
-# RUN TO HERE IF JUST WANT THE 'PLATES' DATAFRAME
 
 # make fasta 
 bcF <- tab2fas(df=plates, seqcol="barcodesFwd", namecol="senseLabel")
 bcR <- tab2fas(df=plates, seqcol="barcodesRev", namecol="antisenseLabel")
+
+# write out new dirs if needed to run first time
+# dir.create(path=paste0("../temp/fastq/", marker),recursive=TRUE)
 
 # write out in folder for running analyses
 write.FASTA(bcF, file=paste0("../temp/fastq/", marker, "/barcodes-sense.fas"))
