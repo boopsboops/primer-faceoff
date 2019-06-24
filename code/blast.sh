@@ -8,6 +8,8 @@
 
 
 ### First download and assemble the BLAST nt database (only need to do this step once)
+# database descriptions: https://www.ncbi.nlm.nih.gov/books/NBK62345/
+# database contents: ftp://ftp.ncbi.nlm.nih.gov/blast/db/README
 # cd to directory
 cd ../temp
 
