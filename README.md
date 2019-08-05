@@ -1,8 +1,9 @@
-# primer-faceoff
+# Non-specific amplification compromises environmental DNA metabarcoding with COI
 
-Final data and code for the primer-faceoff paper published in _???_:
+Final data and code for the primer comparison paper published in _Methods in Ecology and Evolution_:
 
-Collins, R. A., Bakker, J., Wangensteen, O. S., Soto, A. Z., Corrigan, L., Sims, D. W., Genner, M. J., Mariani, S. (XXX) Non-specific amplification compromises environmental DNA metabarcoding with COI. _XXX_. [https://doi.org/XXX](https://doi.org/XXX).
+Collins, R.A., Bakker, J., Wangensteen, O.S., Soto, A.Z., Corrigan, L., Sims, D.W., Genner, M.J., Mariani, S. (2019) Non-specific amplification compromises environmental DNA metabarcoding with COI. _Methods in Ecology and Evolution_. [https://doi.org/10.1111/2041‐210X.13276](https://doi.org/10.1111/2041‐210X.13276).
+
 
 ### Contents
 
@@ -11,6 +12,7 @@ Collins, R. A., Bakker, J., Wangensteen, O. S., Soto, A. Z., Corrigan, L., Sims,
     - `dada2.R` - run the dada2 workflow to denoise the sequence data
     - `demultiplex.sh` - demultiplex with cutadapt
     - `epa.sh` - run the Evolutionary Placement Algorithm
+    - `get-data.sh` - download fastq files from Dryad
     - `id-rates.R` - calculate marker discriminatory power
     - `make-plots.R` - generate the plots from the manuscript
     - `MFEprimer.sh` - run _in silico_ PCR with MFE primer
